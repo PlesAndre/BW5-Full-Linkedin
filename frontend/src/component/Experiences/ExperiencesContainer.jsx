@@ -114,9 +114,9 @@ const ExperiencesContainer = ({ id }) => {
   };
 
   // useEffect caricare la "GET" ogni volta che il valore di [reload] cambia
-  useEffect(() => {
-    getExperiences();
-  }, [reload]);
+  // useEffect(() => {
+  //   getExperiences();
+  //}, [reload]);
 
   // Funzione handleChange che prendere i valori attuali della finestra modale
   const handleChange = (e) => {

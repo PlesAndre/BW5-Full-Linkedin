@@ -11,12 +11,9 @@ import ExperiencesContainer from "../Experiences/ExperiencesContainer";
 import { Col, Container, Row } from "react-bootstrap";
 
 // ENDPOINT dei profili con Token per l'AUTH
-const API_PROFILE_URL = "https://striveschool-api.herokuapp.com/api/profile/";
-const API_TOKEN =
-  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzUxZjRiZTcyNDZhZDAwMTVjNTE1NzYiLCJpYXQiOjE3MzM0MjQzMTgsImV4cCI6MTczNDYzMzkxOH0.FgQRbzIKWv_pm2t9v9nus4hRdQgxTsCFHLOOUN994Hs";
+const API_PROFILE_URL = `http://localhost:3001/api/users/`;
 
 export default function ProfilePage() {
-
   // Prende l'id dal componente UsersPage
   const params = useParams();
 
@@ -24,11 +21,7 @@ export default function ProfilePage() {
   const [profileDetails, setProfileDetails] = useState([]);
 
   useEffect(() => {
-    fetch(API_PROFILE_URL + params.id, {
-      headers: {
-        Authorization: API_TOKEN,
-      },
-    })
+    fetch(API_PROFILE_URL + params.id, {})
       .then((response) => {
         if (!response.ok) {
           throw new Error("Errore del server");
@@ -43,7 +36,6 @@ export default function ProfilePage() {
       });
   }, [params]);
 
-  
   return (
     <>
       <Container className="mt-5 pt-2">
