@@ -1,25 +1,39 @@
+// Importo gli hooks di react
 import React, { useState, useEffect } from "react";
+
+// Importo gli stili di react-bootstrap
 import { Card, Container, Button, Row, Col } from "react-bootstrap";
 
 const Aside = () => {
-  const [user, setUser] = useState([]);
+  // useState utilizzato per prendere tutti gli utenti dall'endpoint `/api/users` tramite la "get"
+  const [users, setUsers] = useState([]);
+  const [showAll, setShowAll] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const fetchUsers = async () => {
     try {
-      const response = await fetch("http://localhost:3001/api/users");
-      if (!response.ok) {
-        throw new Error(`${response.status}`);
-      }
+      const response = await fetch(`http://localhost:3001/api/users`);
       const data = await response.json();
-      setUser(data);
+      setUsers(data);
     } catch (error) {
-      console.error("Errore:", error.message);
+      console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     fetchUsers();
   }, []);
+
+  // Blocco if per il Loading degli utenti
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  // Se il flag `showAll` è vero, assegna tutti gli utenti (array `users`) a `displayedUsers`.
+  // Altrimenti, assegna solo i primi 5 utenti dall'array utilizzando il metodo `slice`.
+  const displayedUsers = showAll ? users : users.slice(0, 5);
 
   return (
     <aside className="mt-5 pt-2">
@@ -36,8 +50,8 @@ const Aside = () => {
             overflowY: "auto",
           }}
         >
-          {user.map((singleUser) => (
-            <Col key={singleUser._id} sm={12} className="mb-1">
+          {displayedUsers.map((user) => (
+            <Col key={user._id} sm={12} className="mb-1">
               <Card
                 className="d-flex flex-row flex-wrap border-0"
                 style={{ width: "100%" }}
@@ -47,8 +61,8 @@ const Aside = () => {
                   className="d-flex justify-content-center align-items-center"
                 >
                   <Card.Img
-                    src={singleUser.image}
-                    alt={`${singleUser.name} ${singleUser.surname}`}
+                    src={user.image}
+                    alt={`${user.name} ${user.surname}`}
                     style={{
                       width: "50px",
                       height: "50px",
@@ -60,10 +74,10 @@ const Aside = () => {
                 <Col md={8}>
                   <Card.Body className="p-0">
                     <Card.Title style={{ fontSize: "13px" }}>
-                      {singleUser.name} {singleUser.surname}
+                      {user.name} {user.surname}
                     </Card.Title>
                     <Card.Text className="mb-1" style={{ fontSize: "12px" }}>
-                      {singleUser.title || ""}
+                      {user.title || ""}
                     </Card.Text>
                     <Button variant="primary" size="sm">
                       Collegati
@@ -75,23 +89,29 @@ const Aside = () => {
             </Col>
           ))}
         </Row>
-        <div
-          className="d-flex justify-content-center"
-          style={{
-            position: "absolute",
-            bottom: "10px",
-            width: "100%",
-            paddingBottom: "10px",
-          }}
-        >
-          <Button
-            variant="outline-primary"
-            size="lg"
-            style={{ fontSize: "15px" }}
+        {/* Bottone "Mostra tutto" */}
+        {!showAll && users.length > 5 && (
+          <div
+            className="d-flex justify-content-center"
+            style={{
+              position: "absolute",
+              bottom: "10px",
+              width: "100%",
+              paddingBottom: "10px",
+            }}
           >
-            Mostra tutto
-          </Button>
-        </div>
+            <Button
+              variant="outline-primary"
+              size="lg"
+              onClick={() => setShowAll(true)}
+              style={{
+                fontSize: "15px",
+              }}
+            >
+              Mostra tutto
+            </Button>
+          </div>
+        )}
       </Container>
     </aside>
   );
