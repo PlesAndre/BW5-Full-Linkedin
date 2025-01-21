@@ -7,14 +7,14 @@ import { Container, Row, Col, Button, Modal } from "react-bootstrap";
 // Importo lo stile CSS
 import "./Experience.css";
 
-export default function Experience({ experience, id, apiToken, setReload }) {
+export default function Experience({ experience, id, setReload }) {
   // Funzioni utilizzate per la finestra modale
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   // ENDPOINT per la PUT (update)
-  const API_EXP_PUT_URL = `https://striveschool-api.herokuapp.com/api/profile/${id}/experiences/`;
+  const API_EXP_PUT_URL = `http://localhost:3001/api/users/${id}/experiences/`;
 
   const [inputs, setInputs] = useState({
     role: "",
@@ -54,7 +54,6 @@ export default function Experience({ experience, id, apiToken, setReload }) {
       const response = await fetch(API_EXP_PUT_URL + experience._id, {
         method: "PUT",
         headers: {
-          Authorization: apiToken,
           "Content-Type": "application/json",
         },
         body: JSON.stringify(inputs),
@@ -91,7 +90,7 @@ export default function Experience({ experience, id, apiToken, setReload }) {
       const response = await fetch(API_EXP_PUT_URL + selectedId, {
         method: "DELETE",
         headers: {
-          Authorization: apiToken,
+          "Content-Type": "application/json",
         },
       });
 

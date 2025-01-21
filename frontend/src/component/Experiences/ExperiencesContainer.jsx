@@ -33,50 +33,13 @@ const ExperiencesContainer = ({ id }) => {
   });
 
   // ENDPOINT delle esperienze
-  const API_EXP_URL = `https://striveschool-api.herokuapp.com/api/profile/${id}/experiences`;
-
-  // Array di oggetti definito per validare l'id e il token quando è selezionato un profilo specifico
-  const users = [
-    {
-      name: "Jessica",
-      token:
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzRmNTJjMTIyY2EwMzAwMTU0ODg0YjEiLCJpYXQiOjE3MzMyNTE3NzcsImV4cCI6MTczNDQ2MTM3N30.2ILN61xsYSCkFQcH7evxZxTq8xCfbieJfh2FBphi8NQ",
-      id: "674f52c122ca0300154884b1",
-    },
-    {
-      name: "Carmine",
-      token:
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzUyMDk2ZjcyNDZhZDAwMTVjNTE1OTMiLCJpYXQiOjE3MzM0Mjk3MDgsImV4cCI6MTczNDYzOTMwOH0.1tYavcCRvJyrvhEHVAWTA4NKhDhmPjZupeZDNhZ0RQE",
-      id: "6752096f7246ad0015c51593",
-    },
-    {
-      name: "Andrei",
-      token:
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzRlMDcyNTc0Yjc3ZDAwMTVkM2YwNzYiLCJpYXQiOjE3MzMxNjY4ODUsImV4cCI6MTczNDM3NjQ4NX0.yf8-j8u0AMCJk8jZ-xX7c-0WFOxGtDdFZu2TX6o6rjk",
-      id: "674e072574b77d0015d3f076",
-    },
-    {
-      name: "Gabriele",
-      token:
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzRmNTM4MTIyY2EwMzAwMTU0ODg0YjIiLCJpYXQiOjE3MzMyNTE5NjksImV4cCI6MTczNDQ2MTU2OX0.9Ip7DU9cVmjVt3nUjU88T3YB17fcUyo2a06NCXHOVlw",
-      id: "674f538122ca0300154884b2",
-    },
-  ];
-
-  // Ciclo for per la validazione dove itera all'interno dell'array
-  let apiToken = "";
-  for (let i = 0; i < users.length; i++) {
-    if (id === users[i].id) {
-      apiToken = users[i].token;
-    }
-  }
+  const API_EXP_URL = `http://localhost:3001/api/users/${id}/experiences`;
 
   // READ, per mostrare in pagina le esperienze dell'utente specifico
   const getExperiences = async () => {
     try {
       const response = await fetch(API_EXP_URL, {
         headers: {
-          Authorization: apiToken,
           "Content-Type": "application/json",
         },
       });
@@ -84,7 +47,8 @@ const ExperiencesContainer = ({ id }) => {
         throw new Error("Errore nel recuperare le esperienze");
       }
       const data = await response.json();
-      setExperiences(data);
+      setExperiences(data.experiences);
+      console.log(data);
     } catch (error) {
       console.error(error);
     } finally {
@@ -99,7 +63,6 @@ const ExperiencesContainer = ({ id }) => {
       const response = await fetch(API_EXP_URL, {
         method: "POST",
         headers: {
-          Authorization: apiToken,
           "Content-Type": "application/json",
         },
         body: JSON.stringify(inputs), // "inputs" gli viene passato perchè contiente la struttura che il JSON accetta
@@ -114,9 +77,9 @@ const ExperiencesContainer = ({ id }) => {
   };
 
   // useEffect caricare la "GET" ogni volta che il valore di [reload] cambia
-  // useEffect(() => {
-  //   getExperiences();
-  //}, [reload]);
+  useEffect(() => {
+    getExperiences();
+  }, [reload]);
 
   // Funzione handleChange che prendere i valori attuali della finestra modale
   const handleChange = (e) => {
@@ -223,7 +186,6 @@ const ExperiencesContainer = ({ id }) => {
             {experiences.map((experience) => (
               <Experience
                 setReload={setReload}
-                apiToken={apiToken}
                 id={id}
                 key={experience._id}
                 experience={experience}

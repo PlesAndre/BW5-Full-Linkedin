@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
   area: String,
   bio: String,
   image: String,
+  experiences: [{ type: mongoose.Schema.Types.ObjectId, ref: "experiences" }],
 });
 
 const User = mongoose.model("users", userSchema);
