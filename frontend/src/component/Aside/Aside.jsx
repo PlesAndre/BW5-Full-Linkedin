@@ -1,59 +1,25 @@
-// Importo gli hooks di react
-import React, { useState, useEffect} from "react";
-
-// Importo gli stili di react-bootstrap
+import React, { useState, useEffect } from "react";
 import { Card, Container, Button, Row, Col } from "react-bootstrap";
 
 const Aside = () => {
-  // useState utilizzato per prendere tutti gli utenti dall'endpoint /profile/ tramite la "get"
   const [user, setUser] = useState([]);
-  // const [showAll, setShowAll] = useState(false);
-  // const [loading, setLoading] = useState(true);
 
   const fetchUsers = async () => {
     try {
-      const response = await fetch(`http://localhost:3001/profile/api/users`);
+      const response = await fetch("http://localhost:3001/api/users");
+      if (!response.ok) {
+        throw new Error(`${response.status}`);
+      }
       const data = await response.json();
       setUser(data);
     } catch (error) {
-      console.log(error);
+      console.error("Errore:", error.message);
     }
   };
 
-  // useEffect utilizzato per montare la "get" in pagina una volta sola
   useEffect(() => {
     fetchUsers();
-    // const fetchUsers = async () => {
-    //   try {
-    //     const response = await fetch(
-    //       "https://striveschool-api.herokuapp.com/api/profile/",
-    //       {
-    //         headers: {
-    //           Authorization:
-    //             "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzRmNTJjMTIyY2EwMzAwMTU0ODg0YjEiLCJpYXQiOjE3MzMyNTE3NzcsImV4cCI6MTczNDQ2MTM3N30.2ILN61xsYSCkFQcH7evxZxTq8xCfbieJfh2FBphi8NQ",
-    //           "Content-Type": "application/json",
-    //         },
-    //       }
-    //     );
-    //     const data = await response.json();
-    //     setUsers(data);
-    //   } catch (error) {
-    //     console.error("Errore nel caricamento degli utenti", error);
-    //   } finally {
-    //     setLoading(false);
-    //   }
-    // };
-    // fetchUsers(); // Chiamata alla funzione per recuperare gli utenti
   }, []);
-
-  // Blocco if per il Loading degli utenti
-  // if (loading) {
-  //   return <p>Loading...</p>;
-  // }
-
-  // Se il flag `showAll` è vero, assegna tutti gli utenti (array `users`) a `displayedUsers`.
-  // Altrimenti, assegna solo i primi 5 utenti dall'array utilizzando il metodo `slice`.
-  // const displayedUsers = showAll ? users : users.slice(0, 5);
 
   return (
     <aside className="mt-5 pt-2">
@@ -65,49 +31,50 @@ const Aside = () => {
         <Row
           className="g-0"
           style={{
-            height: "calc(100% - 65px)", // Dedica lo spazio per il bottone in fondo
-            paddingRight: "10px", // Per evitare che compaia una scrollbar orizzontale
-            overflowY: "auto", // Permette di scrollare solo la parte delle card
+            height: "calc(100% - 65px)",
+            paddingRight: "10px",
+            overflowY: "auto",
           }}
         >
-          <Col key={user._id} sm={12} className="mb-1">
-            <Card
-              className="d-flex flex-row flex-wrap border-0"
-              style={{ width: "100%" }}
-            >
-              <Col
-                md={4}
-                className="d-flex justify-content-center align-items-center"
+          {user.map((singleUser) => (
+            <Col key={singleUser._id} sm={12} className="mb-1">
+              <Card
+                className="d-flex flex-row flex-wrap border-0"
+                style={{ width: "100%" }}
               >
-                <Card.Img
-                  src={user.image}
-                  alt={`${user.name} ${user.surname}`}
-                  style={{
-                    width: "50px",
-                    height: "50px",
-                    objectFit: "cover",
-                  }}
-                  className="img-fluid rounded-circle"
-                />
-              </Col>
-              <Col md={8}>
-                <Card.Body className="p-0">
-                  <Card.Title style={{ fontSize: "13px" }}>
-                    {user.name} {user.surname}
-                  </Card.Title>
-                  <Card.Text className="mb-1" style={{ fontSize: "12px" }}>
-                    {user.title || ""}
-                  </Card.Text>
-                  <Button variant="primary" size="sm">
-                    Collegati
-                  </Button>
-                </Card.Body>
-              </Col>
-            </Card>
-            <hr style={{ border: "1px solid #ddd", margin: "10px 0" }} />
-          </Col>
+                <Col
+                  md={4}
+                  className="d-flex justify-content-center align-items-center"
+                >
+                  <Card.Img
+                    src={singleUser.image}
+                    alt={`${singleUser.name} ${singleUser.surname}`}
+                    style={{
+                      width: "50px",
+                      height: "50px",
+                      objectFit: "cover",
+                    }}
+                    className="img-fluid rounded-circle"
+                  />
+                </Col>
+                <Col md={8}>
+                  <Card.Body className="p-0">
+                    <Card.Title style={{ fontSize: "13px" }}>
+                      {singleUser.name} {singleUser.surname}
+                    </Card.Title>
+                    <Card.Text className="mb-1" style={{ fontSize: "12px" }}>
+                      {singleUser.title || ""}
+                    </Card.Text>
+                    <Button variant="primary" size="sm">
+                      Collegati
+                    </Button>
+                  </Card.Body>
+                </Col>
+              </Card>
+              <hr style={{ border: "1px solid #ddd", margin: "10px 0" }} />
+            </Col>
+          ))}
         </Row>
-        {/* Bottone "Mostra tutto" */}
         <div
           className="d-flex justify-content-center"
           style={{
@@ -120,10 +87,7 @@ const Aside = () => {
           <Button
             variant="outline-primary"
             size="lg"
-            // onClick={() => setShowAll(true)}
-            style={{
-              fontSize: "15px",
-            }}
+            style={{ fontSize: "15px" }}
           >
             Mostra tutto
           </Button>
