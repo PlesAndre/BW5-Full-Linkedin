@@ -22,6 +22,7 @@ const Aside = () => {
     }
   };
 
+  // useEffect utilizzato per montare la "get" in pagina una volta sola
   useEffect(() => {
     fetchUsers();
   }, []);
@@ -45,9 +46,9 @@ const Aside = () => {
         <Row
           className="g-0"
           style={{
-            height: "calc(100% - 65px)",
-            paddingRight: "10px",
-            overflowY: "auto",
+            height: "calc(100% - 65px)", // Dedica lo spazio per il bottone in fondo
+            paddingRight: "10px", // Per evitare che compaia una scrollbar orizzontale
+            overflowY: "auto", // Permette di scrollare solo la parte delle card
           }}
         >
           {displayedUsers.map((user) => (

@@ -41,8 +41,8 @@ export default function ProfilePage() {
       <Container className="mt-5 pt-2">
         <Row>
           <Col lg={9} md={8}>
-            <ProfileDetails/>
-            <ExperiencesContainer />
+            <ProfileDetails data={profileDetails} />
+            <ExperiencesContainer id={params.id} />
           </Col>
           <Col lg={3} md={4} className="d-none d-md-block">
             <Aside />

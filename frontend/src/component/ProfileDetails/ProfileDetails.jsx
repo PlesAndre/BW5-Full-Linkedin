@@ -9,7 +9,7 @@ import "./ProfileDetails.css";
 // Importo il Link dal router-dom, su App.js dichiarato le Routes
 import { Link } from "react-router-dom";
 
-export default function ProfileDetails() {
+export default function ProfileDetails({ data }) {
   // Come parametro viene passata la props "data" dal componente ProfilePage per passargli i dati del JSON in pagina
   return (
     <>
@@ -21,19 +21,24 @@ export default function ProfileDetails() {
           className="profile-card-header"
         />
         <img
-          src=""
+          src={data.image}
           alt="Avatar"
           className="rounded-circle border avatar-image"
         />
         <Card.Body className="mt-5">
-          <Card.Title className="mb-2"></Card.Title>
-          <Card.Subtitle className="text-muted mb-2"></Card.Subtitle>
+          <Card.Title className="mb-2">
+            {data.name} {data.surname}
+          </Card.Title>
+          <Card.Subtitle className="text-muted mb-2">
+            {data.title}
+          </Card.Subtitle>
           <Card.Text>
+            {data.area} -
             <Link className="mx-1 text-decoration-none">
               Informazioni di contatto
             </Link>
           </Card.Text>
-          <Card.Text></Card.Text>
+          <Card.Text>{data.bio}</Card.Text>
           <Button className="mb-2">Disponibile per</Button>
           <Button variant="outline-primary" className="mb-2 mx-2">
             Aggiungi sezione del profilo
