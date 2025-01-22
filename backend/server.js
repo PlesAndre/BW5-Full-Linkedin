@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import connectDB from "./config/database.js";
-import { router as userRouter } from "./routes/userRoutes.js";
+import { router as userRouter } from "./routes/routes.js";
 
 const server = express();
 
