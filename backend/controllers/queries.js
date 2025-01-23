@@ -25,7 +25,11 @@ const getUserById = async (req, res, next) => {
 
 const modifyUser = async (req, res, next) => {
   try {
-    const user = await User.findByIdAndUpdate(req.params.id, req.body);
+    const updateData = { ...req.body };
+    if (req.file) {
+      updateData.image = `/uploads/${req.file.filename}`;
+    }
+    const user = await User.findByIdAndUpdate(req.params.id, updateData);
     res.json(user);
   } catch (error) {
     console.log(error);

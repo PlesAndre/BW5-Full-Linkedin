@@ -49,16 +49,20 @@ export default function ProfileDetails({ data, apiUrl, setReload }) {
     e.preventDefault();
 
     try {
+      const formData = new FormData();
+      for (const key in inputs) {
+        if (inputs[key]) {
+          formData.append(key, inputs[key]);
+        }
+      }
+
       const response = await fetch(apiUrl + data._id, {
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(inputs),
+        body: formData, // Nessun Content-Type, sarà gestito automaticamente
       });
 
       if (response.ok) {
-        console.log("Profilo aggiornata con successo");
+        console.log("Profilo aggiornato con successo");
         handleClose();
         setReload(true);
       } else {
@@ -68,6 +72,7 @@ export default function ProfileDetails({ data, apiUrl, setReload }) {
       console.error("Errore durante la richiesta PUT", error);
     }
   };
+
   return (
     <>
       <Modal show={show} onHide={handleClose}>
@@ -123,8 +128,7 @@ export default function ProfileDetails({ data, apiUrl, setReload }) {
           <label>Immagine Profilo</label>
           <input
             name="image"
-            value={inputs.image}
-            type="text"
+            type="file"
             placeholder="Link all'immagine"
             onChange={handleChange}
           />
