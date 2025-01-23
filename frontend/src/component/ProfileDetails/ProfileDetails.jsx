@@ -172,20 +172,15 @@ export default function ProfileDetails({ data, apiUrl, setReload }) {
               Informazioni di contatto
             </Link>
           </Card.Text>
-          <Card.Text>
-            {data.bio}{" "}
-            <Button className="mb-2" onClick={handleShow}>
-              Modifica Profilo
-              <i className="bi bi-pencil mx-2"></i>
-            </Button>
-          </Card.Text>
+          <Card.Text>{data.bio} </Card.Text>
 
           <Button className="mb-2">Disponibile per</Button>
           <Button variant="outline-primary" className="mb-2 mx-2">
             Aggiungi sezione del profilo
           </Button>
-          <Button variant="outline-primary" className="mb-2">
-            Migliora profilo
+          <Button className="mb-2" onClick={handleShow}>
+            Modifica Profilo
+            <i className="bi bi-pencil mx-2"></i>
           </Button>
           <Button variant="outline-secondary" className="mb-2 mx-2">
             Risorse
