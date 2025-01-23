@@ -27,7 +27,7 @@ const modifyUser = async (req, res, next) => {
   try {
     const updateData = { ...req.body };
     if (req.file) {
-      updateData.image = `/uploads/${req.file.filename}`;
+      updateData.image = `http://localhost:3001/uploads/${req.file.filename}`;
     }
     const user = await User.findByIdAndUpdate(req.params.id, updateData);
     res.json(user);

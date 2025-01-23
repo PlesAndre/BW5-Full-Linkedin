@@ -40,8 +40,15 @@ export default function ProfileDetails({ data, apiUrl, setReload }) {
   }, [data]);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setInputs((prev) => ({ ...prev, [name]: value }));
+    const { name, value, files } = e.target;
+
+    if (name === "image" && files) {
+      // Se il campo è "image", aggiorna con il file selezionato
+      setInputs((prev) => ({ ...prev, [name]: files[0] }));
+    } else {
+      // Altrimenti, aggiorna i campi con il valore normale
+      setInputs((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
   // Esegue la PUT per modificare il profilo
@@ -50,15 +57,21 @@ export default function ProfileDetails({ data, apiUrl, setReload }) {
 
     try {
       const formData = new FormData();
+
       for (const key in inputs) {
         if (inputs[key]) {
-          formData.append(key, inputs[key]);
+          // Se è un file, lo aggiungiamo come tale
+          if (key === "image" && inputs[key] instanceof File) {
+            formData.append(key, inputs[key]);
+          } else {
+            formData.append(key, inputs[key]);
+          }
         }
       }
 
       const response = await fetch(apiUrl + data._id, {
         method: "PUT",
-        body: formData, // Nessun Content-Type, sarà gestito automaticamente
+        body: formData,
       });
 
       if (response.ok) {
@@ -126,12 +139,7 @@ export default function ProfileDetails({ data, apiUrl, setReload }) {
           />
 
           <label>Immagine Profilo</label>
-          <input
-            name="image"
-            type="file"
-            placeholder="Link all'immagine"
-            onChange={handleChange}
-          />
+          <input name="image" type="file" onChange={handleChange} />
         </Modal.Body>
         <Modal.Footer>
           <Button type="submit" variant="primary" onClick={modifyProfile}>

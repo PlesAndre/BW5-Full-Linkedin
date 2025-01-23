@@ -48,7 +48,6 @@ const ExperiencesContainer = ({ id }) => {
       }
       const data = await response.json();
       setExperiences(data.experiences);
-      console.log(data);
     } catch (error) {
       console.error(error);
     } finally {
@@ -79,7 +78,7 @@ const ExperiencesContainer = ({ id }) => {
   // useEffect caricare la "GET" ogni volta che il valore di [reload] cambia
   useEffect(() => {
     getExperiences();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reload]);
 
   // Funzione handleChange che prendere i valori attuali della finestra modale
