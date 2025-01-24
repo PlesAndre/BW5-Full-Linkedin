@@ -12,6 +12,12 @@ import {
 
 // Importo lo stile esterno CSS
 import "./Navbar.css";
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  UserButton,
+} from "@clerk/clerk-react";
 
 export default function NavBar() {
   return (
@@ -65,23 +71,14 @@ export default function NavBar() {
               <div className="small d-none d-lg-block">Notifiche</div>
             </Nav.Link>
           </Nav.Item>
-          <Dropdown className="text-center mx-3">
-            <Dropdown.Toggle
-              variant="light"
-              className="border-0 bg-transparent d-flex flex-column align-items-center"
-            >
-              <i className="bi bi-person-circle fs-4"></i>
-              <div className="d-flex align-items-center small d-none d-lg-block">
-                Tu <i className="bi bi-chevron-down ms-1"></i>
-              </div>
-            </Dropdown.Toggle>
-            <Dropdown.Menu>
-              <Dropdown.Item>Il tuo profilo</Dropdown.Item>
-              <Dropdown.Item>Impostazioni</Dropdown.Item>
-              <Dropdown.Divider />
-              <Dropdown.Item>Esci</Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
+          <header>
+            <SignedOut>
+              <SignInButton />
+            </SignedOut>
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
+          </header>
           <Dropdown className="text-center mx-3 d-none d-md-block">
             <Dropdown.Toggle
               variant="light"

@@ -6,6 +6,7 @@ import { Container, Row, Col, Button, Modal } from "react-bootstrap";
 
 // Importo lo stile CSS
 import "./Experience.css";
+import { SignedIn } from "@clerk/clerk-react";
 
 export default function Experience({ experience, id, setReload }) {
   // Funzioni utilizzate per la finestra modale
@@ -198,15 +199,17 @@ export default function Experience({ experience, id, setReload }) {
             <p>{experience.description}</p>
           </Col>
           <Col className="d-flex flex-column align-items-end justify-content-end">
-            <Button className="mb-2" onClick={handleShow}>
-              <i className="bi bi-pencil"></i>
-            </Button>
-            <Button
-              variant="danger"
-              onClick={() => handleDelete(experience._id)}
-            >
-              <i className="bi bi-x"></i>
-            </Button>
+            <SignedIn>
+              <Button className="mb-2" onClick={handleShow}>
+                <i className="bi bi-pencil"></i>
+              </Button>
+              <Button
+                variant="danger"
+                onClick={() => handleDelete(experience._id)}
+              >
+                <i className="bi bi-x"></i>
+              </Button>
+            </SignedIn>
           </Col>
         </Row>
       </Container>

@@ -8,6 +8,7 @@ import "./ProfileDetails.css";
 
 // Importo il Link dal router-dom, su App.js dichiarato le Routes
 import { Link } from "react-router-dom";
+import { SignedIn } from "@clerk/clerk-react";
 
 export default function ProfileDetails({ data, apiUrl, setReload }) {
   // Come parametro viene passata la props "data" dal componente ProfilePage per passargli i dati del JSON in pagina
@@ -178,10 +179,12 @@ export default function ProfileDetails({ data, apiUrl, setReload }) {
           <Button variant="outline-primary" className="mb-2 mx-2">
             Aggiungi sezione del profilo
           </Button>
-          <Button className="mb-2" onClick={handleShow}>
-            Modifica Profilo
-            <i className="bi bi-pencil mx-2"></i>
-          </Button>
+          <SignedIn>
+            <Button className="mb-2" onClick={handleShow}>
+              Modifica Profilo
+              <i className="bi bi-pencil mx-2"></i>
+            </Button>
+          </SignedIn>
           <Button variant="outline-secondary" className="mb-2 mx-2">
             Risorse
           </Button>
