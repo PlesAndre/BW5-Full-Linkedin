@@ -6,8 +6,9 @@ import { Button, Col, Container, Modal, Row } from "react-bootstrap";
 
 // Importo il componente utilizzato
 import Experience from "./Experience";
+import { SignedIn } from "@clerk/clerk-react";
 
-const ExperiencesContainer = ({ id }) => {
+const ExperiencesContainer = ({ id, isOwnProfile }) => {
   // useState utilizzato per prendere le esperienze dall'endpoint /id/experiences, id = utente specifico dato dalla UsersPage
   const [experiences, setExperiences] = useState([]);
 
@@ -179,9 +180,13 @@ const ExperiencesContainer = ({ id }) => {
           <Col>
             <Col className="d-flex justify-content-between align-items-center">
               <h5 className="m-3">Esperienze Lavorative</h5>
-              <Button className="mx-4" type="button" onClick={handleShow}>
-                <i className="bi bi-plus"></i>
-              </Button>
+              <SignedIn>
+                {isOwnProfile && (
+                  <Button className="mx-4" type="button" onClick={handleShow}>
+                    <i className="bi bi-plus"></i>
+                  </Button>
+                )}
+              </SignedIn>
             </Col>
             {experiences.map((experience) => (
               <Experience
@@ -189,6 +194,7 @@ const ExperiencesContainer = ({ id }) => {
                 id={id}
                 key={experience._id}
                 experience={experience}
+                isOwnProfile={isOwnProfile}
               />
             ))}
           </Col>

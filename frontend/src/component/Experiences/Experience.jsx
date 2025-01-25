@@ -8,7 +8,12 @@ import { Container, Row, Col, Button, Modal } from "react-bootstrap";
 import "./Experience.css";
 import { SignedIn } from "@clerk/clerk-react";
 
-export default function Experience({ experience, id, setReload }) {
+export default function Experience({
+  experience,
+  id,
+  setReload,
+  isOwnProfile,
+}) {
   // Funzioni utilizzate per la finestra modale
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -200,15 +205,19 @@ export default function Experience({ experience, id, setReload }) {
           </Col>
           <Col className="d-flex flex-column align-items-end justify-content-end">
             <SignedIn>
-              <Button className="mb-2" onClick={handleShow}>
-                <i className="bi bi-pencil"></i>
-              </Button>
-              <Button
-                variant="danger"
-                onClick={() => handleDelete(experience._id)}
-              >
-                <i className="bi bi-x"></i>
-              </Button>
+              {isOwnProfile && (
+                <>
+                  <Button className="mb-2" onClick={handleShow}>
+                    <i className="bi bi-pencil"></i>
+                  </Button>
+                  <Button
+                    variant="danger"
+                    onClick={() => handleDelete(experience._id)}
+                  >
+                    <i className="bi bi-x"></i>
+                  </Button>
+                </>
+              )}
             </SignedIn>
           </Col>
         </Row>

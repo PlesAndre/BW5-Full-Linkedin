@@ -10,7 +10,12 @@ import "./ProfileDetails.css";
 import { Link } from "react-router-dom";
 import { SignedIn } from "@clerk/clerk-react";
 
-export default function ProfileDetails({ data, apiUrl, setReload }) {
+export default function ProfileDetails({
+  data,
+  apiUrl,
+  setReload,
+  isOwnProfile,
+}) {
   // Come parametro viene passata la props "data" dal componente ProfilePage per passargli i dati del JSON in pagina
 
   // Funzioni utilizzate per chiudere/aprire la finestra modale
@@ -179,11 +184,14 @@ export default function ProfileDetails({ data, apiUrl, setReload }) {
           <Button variant="outline-primary" className="mb-2 mx-2">
             Aggiungi sezione del profilo
           </Button>
+
           <SignedIn>
-            <Button className="mb-2" onClick={handleShow}>
-              Modifica Profilo
-              <i className="bi bi-pencil mx-2"></i>
-            </Button>
+            {isOwnProfile && (
+              <Button className="mb-2" onClick={handleShow}>
+                Modifica Profilo
+                <i className="bi bi-pencil mx-2"></i>
+              </Button>
+            )}
           </SignedIn>
           <Button variant="outline-secondary" className="mb-2 mx-2">
             Risorse
