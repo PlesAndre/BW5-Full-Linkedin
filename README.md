@@ -30,7 +30,7 @@ Clerk: Per gestire l'autenticazione, dovrai avere un account su Clerk e configur
 Passaggi per l'installazione
 Clona il repository:
 
-git clone https://github.com/tuo-username/linkedin-completo.git
+git clone https://github.com/PlesAndre/BW5-Full-Linkedin.git
 
 Vai nella cartella del progetto e installa le dipendenze del progetto:
 - npm install
